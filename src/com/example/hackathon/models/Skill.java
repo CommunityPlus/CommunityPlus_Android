@@ -12,6 +12,7 @@ public class Skill
 	//public String description;
 	@SerializedName("numb_events")
 	public int numberOfEvents;
+	
 	public int getSkillId() {
 		return skillId;
 	}

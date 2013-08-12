@@ -196,7 +196,7 @@ public class LoginActivity extends Activity {
 						 
 			try {
 				//wait to get some result from network (I think)
-				Database database = new Database("http://communityplus.herokuapp.com/api/", "android","1234");
+				Database database = new Database("http://192.168.1.109:3000/api/", "android","1234");
 				database.loginUser(LoginActivity.this, mEmailView.getText().toString(), mPasswordView.getText().toString());
 
 				Thread.sleep(3000);

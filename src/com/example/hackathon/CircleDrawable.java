@@ -8,6 +8,7 @@ import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.util.Log;
 import de.arvidg.exampleactionbartabs.R;
 
 public class CircleDrawable extends Drawable {
@@ -91,7 +92,6 @@ public class CircleDrawable extends Drawable {
 
 	@Override
 	public void draw(Canvas canvas) {
-
 		//Merelda have to fix this crap of passing stuff around everywhere!
 		canvas.drawCircle(pixels/2, pixels/2, size, paint);
 	}

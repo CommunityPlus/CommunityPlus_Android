@@ -69,7 +69,7 @@ public class EventCreate extends Activity { //FragmentActivity
 		
 		Bundle eventDetails = getIntent().getExtras();
 		
-		Database database = new Database("http://communityplus.herokuapp.com/api/", "android",
+		Database database = new Database("http://192.168.1.109:3000/api/", "android",
 		"1234");
 		
 		

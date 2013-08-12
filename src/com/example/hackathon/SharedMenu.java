@@ -18,7 +18,7 @@ public class SharedMenu
   public static final int MENU_ABOUT = 1000;
   public static final int MENU_FAQ   = 1001;
   SessionManager session;
-  Database database = new Database("http://communityplus.herokuapp.com/api/", "android", "1234");
+  Database database = new Database("http://192.168.1.109:3000/api/", "android", "1234");
 //  public static void onCreateOptionsMenu(Menu menu, Context ctx) {
 //	  menu.add
 //    menu.add(Menu.NONE, MENU_FAQ, Menu.NONE,
@@ -26,7 +26,6 @@ public class SharedMenu
 //    menu.add(Menu.NONE, MENU_ABOUT, Menu.NONE,
 //             ctx.getString(R.string.About)).setIcon(R.drawable.ic_menu_about);
 //  }
- 
   public boolean onOptionsItemSelected(MenuItem item, Activity caller) {
 	  
 	  session = new SessionManager(caller.getApplicationContext());

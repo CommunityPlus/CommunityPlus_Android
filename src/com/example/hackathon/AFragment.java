@@ -44,7 +44,7 @@ public class AFragment extends ListFragment {
 		initImageLoader(getActivity());
 
 		// Database Stuff
-		database = new Database("http://communityplus.herokuapp.com/api/", "android",
+		database = new Database("http://192.168.1.109:3000/api/", "android",
 				"1234");
 		try {
 			ArrayList<ListUsers> users = database.showListUsers();

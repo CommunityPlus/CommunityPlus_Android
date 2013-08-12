@@ -1,5 +1,6 @@
 package com.example.hackathon;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import android.app.Activity;
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.hackathon.api.Database;
+import com.example.hackathon.models.Skill;
 import com.example.hackathon.models.UserProfile;
 import com.google.common.primitives.Ints;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -67,7 +69,7 @@ public class PeopleDetail extends Activity {
 		userDetails = getIntent().getExtras();
 
 		// Create new UserProfile based on userId (From DB)
-		database = new Database("http://communityplus.herokuapp.com/api/", "android",
+		database = new Database("http://192.168.1.109:3000/api/", "android",
 				"1234");
 
 		try {
@@ -87,7 +89,7 @@ public class PeopleDetail extends Activity {
 		else
 			setContentView(R.layout.user_detail);
 
-//		isUser = userDetails.getBoolean("isUser");
+		// isUser = userDetails.getBoolean("isUser");
 		sharedMenu = new SharedMenu();
 
 		// set up stuff for dynamically draw skills circle
@@ -163,50 +165,89 @@ public class PeopleDetail extends Activity {
 		txt.setText(userProfile.getWordCloud()[6]);
 	}
 
-	private void draw(TextView[] skills) {
+	private void draw(TextView[] skills, boolean toOffer) {
+		
+		int number;
+		size=0;
+		ArrayList<Skill> userSkill;
+		 
+		if(toOffer == true){
+			userSkill = userProfile.getSkillsOffer();
+			Log.d("PeopleDetail", "skills to offer");}
+		else{
+			userSkill = userProfile.getSkillsLearn();
+			Log.d("PeopleDetail", "skills to learn");}
 
+		
 		for (int i = 0; i < skills.length; i++) {
-			if (Integer.parseInt(skills[i].getText().toString()) <= rangeS) {
+			
+			number = userSkill.get(i).getNumberOfEvents();
+			
+			if (number == 0) {
+				size = 57;
+				Log.d("PeopleDetail", "number is: " + Integer.parseInt(skills[i].getText().toString()));
+			} else if (number <= rangeS && number > 0) {
 				size = 77;
-			} else if (Integer.parseInt(skills[i].getText().toString()) > rangeS
-					&& Integer.parseInt(skills[i].getText().toString()) <= rangeM) {
+				Log.d("PeopleDetail", "number is: " + Integer.parseInt(skills[i].getText().toString()));
+			} else if (number > rangeS && number <= rangeM) {
 				size = 87;
-			} else if (Integer.parseInt(skills[i].getText().toString()) > rangeM
-					&& Integer.parseInt(skills[i].getText().toString()) <= rangeL) {
+				Log.d("PeopleDetail", "number is: " + Integer.parseInt(skills[i].getText().toString()));
+			} else if (number > rangeM && number <= rangeL) {
 				size = 97;
-			} else if (Integer.parseInt(skills[i].getText().toString()) > rangeL) {
+				Log.d("PeopleDetail", "number is: " + Integer.parseInt(skills[i].getText().toString()));
+			} else if (number > rangeL) {
 				size = 107;
+				Log.d("PeopleDetail", "number is: " + Integer.parseInt(skills[i].getText().toString()));
 			} else {
 				Log.e("PeopleDetail", "Bad Conditional Formatting");
 				size = 97; // if it comes here then something is wrong with my
 							// conditional statement
 			}
+			
+			Log.d("PeopleDetail", "size is: " + size);
+			
 			skills[i].getText();
 			skills[i].setWidth(pixels);
 			skills[i].setHeight(pixels);
+			skills[i].setText(Integer.toString(number));
 			skills[i].setBackground(new CircleDrawable(getApplicationContext(),
 					userProfile.isMale(), size, pixels));
 		}
 	}
 
-	private void findWeighting(TextView[] skills) {
-		int min = 0;
-		int max = 0;
+	private void findWeighting(boolean toOffer) {
 
-		int[] myArray = { Integer.parseInt(skills[0].getText().toString()),
-				Integer.parseInt(skills[1].getText().toString()),
-				Integer.parseInt(skills[2].getText().toString()),
-				Integer.parseInt(skills[3].getText().toString()),
-				Integer.parseInt(skills[4].getText().toString()),
-				Integer.parseInt(skills[5].getText().toString()) };
+		int[] numberOfEvents = {0,0,0};
+		ArrayList<Skill> skills = null;
+		
+		if(toOffer == true){
+			skills = userProfile.getSkillsOffer();}
+		else{
+			skills = userProfile.getSkillsLearn();}
+			
+		// cycle through skills offer OR skills learn to find the max and min
+		// size to obtain a relative weighting
+		for (int i = 0; i < skills.size(); i++) {
+			numberOfEvents[i] = skills.get(i).getNumberOfEvents();
+		}
 
-		min = Ints.min(myArray);
-		max = Ints.max(myArray);
+		// hard coding the stuff from the text view of profile
+		// int[] myArray = { Integer.parseInt(skills[0].getText().toString()),
+		// Integer.parseInt(skills[1].getText().toString()),
+		// Integer.parseInt(skills[2].getText().toString()),
+		// Integer.parseInt(skills[3].getText().toString()),
+		// Integer.parseInt(skills[4].getText().toString()),
+		// Integer.parseInt(skills[5].getText().toString()) };
+
+		int offerMin = Ints.min(numberOfEvents);
+		int offerMax = Ints.max(numberOfEvents);
 
 		// scale
-		rangeS = (max - min) / 3;
-		rangeM = 2 * (max - min) / 3;
-		rangeL = max - min;
+		rangeS = (offerMax - offerMin) / 3;
+		rangeM = 2 * (offerMax - offerMin) / 3;
+		rangeL = offerMax - offerMin;
+		
+		Log.d("PeopleDetail", "Range: " + rangeS + " " + rangeM + " " + rangeL);
 	}
 
 	/*
@@ -215,14 +256,21 @@ public class PeopleDetail extends Activity {
 	 * the weighting
 	 */
 	private void drawSkillsCircle() {
-		TextView[] array = { (TextView) findViewById(R.id.skill1),
-				(TextView) findViewById(R.id.skill2),
-				(TextView) findViewById(R.id.skill3),
-				(TextView) findViewById(R.id.skill4),
+		
+		// currently hard-coding the textview, there's always at least 3
+		TextView[] arrayLearn = { (TextView) findViewById(R.id.skill4),
 				(TextView) findViewById(R.id.skill5),
 				(TextView) findViewById(R.id.skill6) };
-		findWeighting(array);
-		draw(array);
+		
+		TextView[] arrayOffer = { (TextView) findViewById(R.id.skill1),
+				(TextView) findViewById(R.id.skill2),
+				(TextView) findViewById(R.id.skill3) };
+		
+		findWeighting(true);
+		draw(arrayOffer, true);
+		
+		findWeighting(false);
+		draw(arrayLearn, false);
 	}
 
 	@Override
@@ -230,9 +278,9 @@ public class PeopleDetail extends Activity {
 
 		MenuInflater inflater = getMenuInflater();
 		SessionManager session = new SessionManager(getApplicationContext());
-		
-		
-		if (Integer.parseInt(session.getUserDetails().get("id")) == userDetails.getInt("userId")) {
+
+		if (Integer.parseInt(session.getUserDetails().get("id")) == userDetails
+				.getInt("userId")) {
 			isUser = true;
 			inflater.inflate(R.menu.edit, menu);
 		} else {
