@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        android:orientation="vertical" >
+
+        <!-- Header Here - -->
+
+        <RelativeLayout
+            android:id="@+id/header_relative_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <FrameLayout
+                android:id="@+id/headerFrameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TableRow
+                    android:id="@+id/rowHeaderLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:background="@drawable/header" >
+                </TableRow>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/nameTextView"
+                        style="@style/CommunityTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/profilePictureImageView"
+                        android:clickable="true"
+                        android:onClick="EditFields"
+                        android:text="Merelda Wu"
+                        android:textColor="@android:color/black"
+                        android:textSize="42sp"
+                        android:contentDescription="Your Name" />
+
+                    <RatingBar
+                        android:id="@+id/userRatingBar"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/nameTextView"
+                        android:layout_below="@+id/descriptionTextView"
+                        android:rating="5"
+                        android:stepSize="1" />
+
+                    <TextView
+                        android:id="@+id/descriptionTextView"
+                        style="@style/CommunityTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/nameTextView"
+                        android:layout_below="@+id/nameTextView"
+                        android:clickable="true"
+                        android:onClick="EditFields"
+                        android:text="JHB, South Africa"
+                        android:contentDescription="Your Location"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/profilePictureImageView"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_margin="10dp"
+                        android:src="@drawable/mel" />
+                </RelativeLayout>
+            </FrameLayout>
+
+            <RelativeLayout
+                android:id="@+id/WordCloudLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/headerFrameLayout"
+                android:layout_toRightOf="@+id/true_center"
+                android:gravity="right"
+                android:orientation="vertical"
+                android:padding="10dp" >
+
+                <TextView
+                    android:id="@+id/Word1"
+                    style="@style/CommunityTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:clickable="true"
+                    android:maxLines="1"
+                    android:onClick="EditFields"
+                    android:text="Chocolate Chip Cookie"
+                    android:contentDescription="Word Cloud"
+                    android:textColor="@color/girl_brown"
+                    android:textSize="38sp" />
+
+                <TextView
+                    android:id="@+id/Word2"
+                    style="@style/CommunityTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/Word1"
+                    android:clickable="true"
+                    android:gravity="right"
+                    android:maxLines="1"
+                    android:onClick="EditFields"
+                    android:contentDescription="Word Cloud"
+                    android:text="Happiness Pixie Dust"
+                    android:textColor="@color/girl_blue"
+                    android:textSize="32sp" />
+
+                <TextView
+                    android:id="@+id/Word3"
+                    style="@style/CommunityTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/Word2"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="10dp"
+                    android:clickable="true"
+                    android:maxLines="1"
+                    android:onClick="EditFields"
+                    android:contentDescription="Word Cloud"
+                    android:text="Fashion + Smile"
+                    android:textColor="@color/girl_orange"
+                    android:textSize="40sp" />
+
+                <TextView
+                    android:id="@+id/Word4"
+                    style="@style/CommunityTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/Word3"
+                    android:clickable="true"
+                    android:gravity="center_horizontal"
+                    android:maxLines="1"
+                    android:onClick="EditFields"
+                    android:text="Cappuchino Grande"
+                    android:contentDescription="Word Cloud"
+                    android:textColor="@color/girl_purple" />
+
+                <TextView
+                    android:id="@+id/Word5"
+                    style="@style/CommunityTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_below="@+id/Word4"
+                    android:layout_marginRight="10dp"
+                    android:clickable="true"
+                    android:gravity="right"
+                    android:lineSpacingMultiplier="0.45"
+                    android:onClick="EditFields"
+                    android:text="Cheese Cake Factory"
+                    android:textColor="@color/girl_yellow"
+                    android:contentDescription="Word Cloud"
+                    android:textSize="44sp" />
+
+                <TextView
+                    android:id="@+id/Word6"
+                    style="@style/CommunityTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignRight="@+id/Word6"
+                    android:layout_below="@+id/Word5"
+                    android:clickable="true"
+                    android:gravity="right"
+                    android:maxLines="1"
+                    android:onClick="EditFields"
+                    android:text="Dream Big + Far"
+                    android:textColor="@color/girl_blue"
+                    android:contentDescription="Word Cloud"
+                    android:textSize="34sp" />
+
+                <TextView
+                    android:id="@+id/Word7"
+                    style="@style/CommunityTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/Word6"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="10dp"
+                    android:clickable="true"
+                    android:maxLines="1"
+                    android:onClick="EditFields"
+                    android:text="Like Always."
+                    android:textColor="@color/girl_pale_orange"
+                    android:contentDescription="Word Cloud"
+                    android:textSize="45sp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/true_center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:text=" "
+                android:visibility="invisible" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignTop="@+id/WordCloudLayout"
+                android:layout_toLeftOf="@+id/true_center" >
+
+                <ImageView
+                    android:id="@+id/image_connections"
+                    android:layout_width="120dp"
+                    android:layout_height="80dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginTop="24dp"
+                    android:src="@drawable/connections" />
+
+                <TextView
+                    android:id="@+id/connection_text_number"
+                    style="@style/CommunityTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/image_connections"
+                    android:layout_below="@+id/image_connections"
+                    android:text="140"
+                    android:textColor="@color/girl_pink"
+                    android:textSize="32sp" />
+
+                <TextView
+                    android:id="@+id/connection_text"
+                    style="@style/CommunityTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/text_similarity_number"
+                    android:layout_alignBottom="@+id/connection_text_number"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/connection_text_number"
+                    android:text="Connections"
+                    android:textColor="@color/girl_pink"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/text_similarity"
+                    style="@style/CommunityTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/connection_text"
+                    android:layout_below="@+id/text_similarity_number"
+                    android:text="similarity"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/text_similarity_number"
+                    style="@style/CommunityTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/image_text_similarity_number"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="33dp"
+                    android:text="76%"
+                    android:textColor="@color/girl_pink"
+                    android:textSize="42sp" />
+
+                <TextView
+                    android:id="@+id/text_learn"
+                    style="@style/CommunityTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/bar_learn"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@+id/bar_learn"
+                    android:text="Learn"
+                    android:textColor="@color/girl_pink"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/bar_learn"
+                    android:layout_width="120dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/text_similarity_number"
+                    android:layout_marginTop="40dp"
+                    android:background="@drawable/bar_learn" />
+
+                <ImageView
+                    android:id="@+id/bar_teach"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/bar_learn"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bar_teach" />
+
+                <TextView
+                    android:id="@+id/text_teach"
+                    style="@style/CommunityTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/bar_teach"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@+id/bar_teach"
+                    android:text="Teach"
+                    android:textColor="@color/girl_pink"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/image_text_similarity_number"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_alignRight="@+id/connection_text_number"
+                    android:layout_below="@+id/connection_text_number"
+                    android:src="@drawable/ring" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/SkillsToLearnLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TableRow
+                android:id="@+id/SkillsToLearnRow"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/header" >
+
+                <TextView
+                    android:id="@+id/TextView01"
+                    style="@style/CommunityTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Skills to Learn"
+                    android:textColor="@android:color/black"
+                    android:textSize="28sp" />
+            </TableRow>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/SkillsToOfferLayout"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="10dp" >
+
+            <TableRow
+                android:id="@+id/SkillsToOfferRow"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/header" >
+
+                <TextView
+                    android:id="@+id/TextView03"
+                    style="@style/CommunityTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Skills to Offer"
+                    android:textColor="@android:color/black"
+                    android:textSize="28sp" />
+            </TableRow>
+
+                    <Button
+            android:id="@+id/saveBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="44dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:background="@drawable/red_rsvp_btn"
+            android:onClick="SaveEdit"
+            style="@style/CommunityTitle"
+            android:text="   Save   "
+            android:textSize="18sp" />
+        </RelativeLayout>
+    </LinearLayout>
+    
+
+</ScrollView>

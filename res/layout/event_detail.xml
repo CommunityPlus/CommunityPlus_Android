@@ -1,0 +1,214 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/homeitem_detail_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical"
+    tools:context=".HomeItemDetailActivity"
+    tools:ignore="MergeRootFrame" >
+
+    <RelativeLayout
+        android:id="@+id/RelativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/eventPicutreImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/bakaway" />
+
+        <ImageView
+            android:id="@+id/ic_event_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/eventPicutreImage"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/ic_event_location" />
+
+        <ImageView
+            android:id="@+id/ic_event_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/ic_event_location"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/ic_event_time" />
+
+        <ListView
+            android:id="@+id/listf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tableLayout1" >
+        </ListView>
+
+        <TableLayout
+            android:id="@+id/tableLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/event_date_time" >
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/event_status_bar" >
+                </TableLayout>
+
+                <Button
+                    android:id="@+id/RSVPbtn"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/red_rsvp_btn"
+                    android:onClick="RsvpStatus"
+                    android:text="@string/RSVP_status"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:text="Your Status"
+                    android:textColor="@android:color/white"
+                    android:textSize="22sp" />
+            </FrameLayout>
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/event_description"
+                    style="@style/CommunityTextSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|center_vertical|right|left"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:contentDescription="Event Description"
+                    android:gravity="left"
+                    android:maxLines="2"
+                    android:text="This description is going to be very long so it can take up more than two lines. It&apos;s a bakaway program the name is funny because I came up with it. I like macaroons, I miss Paris and Disneyland." />
+
+                <ImageView
+                    android:id="@+id/ic_expand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="5dp"
+                    android:onClick="ExpandOnClick" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/ImageView01"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/line" />
+
+            <TextView
+                android:id="@+id/event_attendance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:text="2 People are attending"
+                android:textColor="@android:color/white" />
+
+            <TableRow
+                android:id="@+id/tableRow1"
+                style="@style/CommunityTextSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp" >
+
+                <ScrollView
+                    android:id="@+id/match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <LinearLayout
+                        android:id="@+id/attendance_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+                </ScrollView>
+            </TableRow>
+
+        </TableLayout>
+
+        <TextView
+            android:id="@+id/event_location"
+            style="@style/CommunityTextSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/ic_event_location"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/ic_event_location"
+            android:contentDescription="Location"
+            android:text="21 4th street, Linden, JHB"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/event_date_time"
+            style="@style/CommunityTextSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/event_location"
+            android:layout_alignTop="@+id/ic_event_time"
+            android:contentDescription="Date and Time"
+            android:text="Sun | 21 Jul | 5 Attending " />
+
+        <TextView
+            android:id="@+id/event_name"
+            style="@style/CommunityTextMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/event_location"
+            android:layout_alignLeft="@+id/event_organizer"
+            android:contentDescription="event name"
+            android:text="Macaroons!" />
+
+        <TextView
+            android:id="@+id/event_organizer"
+            style="@style/CommunityTextSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/eventPicutreImage"
+            android:contentDescription="Event Organizer"
+            android:text="Bakaway Program" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

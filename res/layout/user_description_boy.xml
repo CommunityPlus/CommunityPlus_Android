@@ -1,0 +1,69 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/DescriptionDialogBoy"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <!-- style="@style/DescriptionDialog" -->
+
+
+    <!-- <ImageView -->
+    <!-- android:id="@+id/close_dialog" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_alignParentBottom="true" -->
+    <!-- android:layout_alignRight="@+id/textView1" -->
+    <!-- android:layout_marginBottom="35dp" -->
+    <!-- android:src="@drawable/ic_stat_collapse" -->
+    <!-- android:onClick="DescriptionClose"/> -->
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="35dp"
+                android:gravity="left"
+                android:text="I’m an MSc student in Electrical a a a a a Engineering, and my focus is in renewable energy, power electronics and machine. I moved to South Africa from Taiwan when I’m 17, so my mother tongue is Mandarin. I love fashion, such as nail art, hair styling, and make up. I am really bad with sports, but I really want to learn personal (not team) sports, such as swimming, squash, yoga, pilates, etc.
+                
+I played flute for about 4 years, although I stopped practicing often, I would still like to progress more. It would be awesome to collaborate with pianists and other instruments. 
+I also enjoy critical thinking, human behavior in general and I love pondering about weird, unimportant philosophical question. 
+
+Chat to me, it’d be fun :)
+"
+                android:textSize="16dp" />
+
+<!--             <TextView -->
+<!--                 android:id="@+id/description_close" -->
+<!--                 android:layout_width="wrap_content" -->
+<!--                 android:layout_height="wrap_content" -->
+<!--                 android:layout_alignParentRight="true" -->
+<!--                 android:layout_alignParentTop="true" -->
+<!--                 android:clickable="true" -->
+<!--                 android:text="    " -->
+<!--                 android:textSize="40sp" /> -->
+
+            <Button
+                android:id="@+id/button_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:onClick="DescriptionClose"
+                android:background="@android:color/transparent"
+                android:text="  " />
+
+        </RelativeLayout>
+    </ScrollView>
+
+</LinearLayout>

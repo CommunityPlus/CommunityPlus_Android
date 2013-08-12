@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fullscreen_content_controls"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".FullscreenActivity" >
+
+    <TextView
+        android:id="@+id/logo_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/logo"
+        android:layout_marginLeft="14dp"
+        android:layout_toRightOf="@+id/logo"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="center_horizontal"
+        android:text="Community+"
+        android:textColor="#42B04A"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/fullscreen_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="155dp"
+        android:contentDescription="@drawable/ic_launcher"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/fullscreen_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo_text"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="A Platform to Learn, Share and Connect"
+        android:fontFamily="Roboto"
+        android:gravity="center_horizontal"
+        android:text="A Platform to Learn, Share and Connect"
+        android:textColor="#ffffff"
+        android:textSize="12sp"
+        android:textStyle="normal"
+        android:typeface="serif" />
+
+</RelativeLayout>
