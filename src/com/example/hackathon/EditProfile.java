@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -40,13 +41,14 @@ public class EditProfile extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_edit);
 		sharedMenu = new SharedMenu();
+		Log.d("EditProfile", "edit profile!");
 	}
 	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.edit, menu);
+		inflater.inflate(R.menu.main, menu);
 		return true;
 	}
 

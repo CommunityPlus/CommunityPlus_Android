@@ -6,6 +6,7 @@ import java.util.concurrent.ExecutionException;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -283,6 +284,9 @@ public class PeopleDetail extends Activity {
 				.getInt("userId")) {
 			isUser = true;
 			inflater.inflate(R.menu.edit, menu);
+			Intent intent = new Intent(PeopleDetail.this, EditProfile.class);
+			startActivity(intent);
+			finish();
 		} else {
 			isUser = false;
 			inflater.inflate(R.menu.main, menu);
@@ -334,6 +338,15 @@ public class PeopleDetail extends Activity {
 				description_dialog.dismiss();
 			}
 		});
+
+	}
+	
+	
+	/**
+	 * Upload all the changes onto DB
+	 */
+	private void saveUser() {
+		// TODO Auto-generated method stub
 
 	}
 }

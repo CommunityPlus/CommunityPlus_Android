@@ -35,11 +35,15 @@ public class SessionManager {
 	// Email address (make variable public to access from outside)
 	private static final String KEY_EMAIL = "email";
 	private static final String KEY_ID = "id";
+	private static final String IS_FIRST_TIME = "isFirst";
 
 	// authentication token for Matt
 	private static final String KEY_TOKEN = "token";
 	private static String token;
 	private static Boolean LoggedIn;
+	
+	// first time user for guided tour
+	private static Boolean isFirstTime;
 
 	// Constructor
 	public SessionManager(Context context) {
@@ -151,12 +155,10 @@ public class SessionManager {
 		editor.putBoolean(IS_LOGIN, isSuccess);
 //		LoggedIn = isSuccess;
 		editor.commit();
-		Log.d("SessionManager", "user login status; " + LoggedIn); //user.get(IS_LOGIN)
 		
 		if (isSuccess ==true){
 			Log.d("SessionManager", "token is: " + auth_token);
 			Log.d("SessionManager", "id is: " + user_id);
-			Log.d("SessionManager", "status is: " + LoggedIn);
 			createLoginSession(auth_token, user_id);
 		}
 		else{
@@ -164,5 +166,14 @@ public class SessionManager {
 		}
 		
 //		getUserDetails();
+	}
+	
+	public void saveFirstTime(Boolean isFirst){
+		editor.putBoolean(IS_FIRST_TIME, isFirst);
+		editor.commit();
+	}
+	
+	public Boolean isFirstTime(){
+		return pref.getBoolean(IS_FIRST_TIME, false); 
 	}
 }

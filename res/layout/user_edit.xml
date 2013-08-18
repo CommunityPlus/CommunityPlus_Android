@@ -24,7 +24,7 @@
                 <TableRow
                     android:id="@+id/rowHeaderLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="130dp"
                     android:background="@drawable/header" >
                 </TableRow>
 
@@ -36,23 +36,29 @@
                         android:id="@+id/nameTextView"
                         style="@style/CommunityTitle"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_height="60dp"
+                        android:layout_marginLeft="2dp"
                         android:layout_toRightOf="@+id/profilePictureImageView"
-                        android:clickable="true"
-                        android:onClick="EditFields"
-                        android:text="Merelda Wu"
+                        android:text="Tinkerbell *"
+                        android:maxLines="2"
+                        android:lineSpacingMultiplier="0.55"
                         android:textColor="@android:color/black"
-                        android:textSize="42sp"
-                        android:contentDescription="Your Name" />
+                        android:textSize="32sp" />
+
+                    <ImageView
+                        android:id="@+id/profilePictureImageView"
+                        android:layout_width="110dp"
+                        android:layout_height="110dp"
+                        android:layout_marginLeft="9dp"
+                        android:layout_marginTop="13dp"
+                        android:src="@drawable/tinkerbell" />
 
                     <RatingBar
                         android:id="@+id/userRatingBar"
                         style="?android:attr/ratingBarStyleSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignLeft="@+id/nameTextView"
+                        android:layout_alignLeft="@+id/descriptionTextView"
                         android:layout_below="@+id/descriptionTextView"
                         android:rating="5"
                         android:stepSize="1" />
@@ -64,18 +70,11 @@
                         android:layout_height="wrap_content"
                         android:layout_alignLeft="@+id/nameTextView"
                         android:layout_below="@+id/nameTextView"
-                        android:clickable="true"
-                        android:onClick="EditFields"
-                        android:text="JHB, South Africa"
-                        android:contentDescription="Your Location"
-                        android:textSize="20sp" />
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:text="Pixie Hollow, Neverland"
+                        android:textSize="16sp" />
 
-                    <ImageView
-                        android:id="@+id/profilePictureImageView"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_margin="10dp"
-                        android:src="@drawable/mel" />
                 </RelativeLayout>
             </FrameLayout>
 
@@ -95,13 +94,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:clickable="true"
                     android:maxLines="1"
-                    android:onClick="EditFields"
-                    android:text="Chocolate Chip Cookie"
-                    android:contentDescription="Word Cloud"
+                    android:text="Adventure Land"
                     android:textColor="@color/girl_brown"
-                    android:textSize="38sp" />
+                    android:textSize="34sp" />
 
                 <TextView
                     android:id="@+id/Word2"
@@ -109,12 +105,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/Word1"
-                    android:clickable="true"
                     android:gravity="right"
                     android:maxLines="1"
-                    android:onClick="EditFields"
-                    android:contentDescription="Word Cloud"
-                    android:text="Happiness Pixie Dust"
+                    android:text="Peter Pan's Flight"
                     android:textColor="@color/girl_blue"
                     android:textSize="32sp" />
 
@@ -126,11 +119,8 @@
                     android:layout_below="@+id/Word2"
                     android:layout_gravity="left"
                     android:layout_marginLeft="10dp"
-                    android:clickable="true"
                     android:maxLines="1"
-                    android:onClick="EditFields"
-                    android:contentDescription="Word Cloud"
-                    android:text="Fashion + Smile"
+                    android:text="Disney Fairies"
                     android:textColor="@color/girl_orange"
                     android:textSize="40sp" />
 
@@ -140,12 +130,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/Word3"
-                    android:clickable="true"
                     android:gravity="center_horizontal"
                     android:maxLines="1"
-                    android:onClick="EditFields"
-                    android:text="Cappuchino Grande"
-                    android:contentDescription="Word Cloud"
+                    android:text="Faith, Trust, Happiness"
                     android:textColor="@color/girl_purple" />
 
                 <TextView
@@ -155,14 +142,11 @@
                     android:layout_height="70dp"
                     android:layout_below="@+id/Word4"
                     android:layout_marginRight="10dp"
-                    android:clickable="true"
                     android:gravity="right"
                     android:lineSpacingMultiplier="0.45"
-                    android:onClick="EditFields"
-                    android:text="Cheese Cake Factory"
+                    android:text="Beautiful Magic"
                     android:textColor="@color/girl_yellow"
-                    android:contentDescription="Word Cloud"
-                    android:textSize="44sp" />
+                    android:textSize="40sp" />
 
                 <TextView
                     android:id="@+id/Word6"
@@ -171,13 +155,10 @@
                     android:layout_height="wrap_content"
                     android:layout_alignRight="@+id/Word6"
                     android:layout_below="@+id/Word5"
-                    android:clickable="true"
                     android:gravity="right"
                     android:maxLines="1"
-                    android:onClick="EditFields"
-                    android:text="Dream Big + Far"
+                    android:text="Lovely Wings to fly"
                     android:textColor="@color/girl_blue"
-                    android:contentDescription="Word Cloud"
                     android:textSize="34sp" />
 
                 <TextView
@@ -188,13 +169,20 @@
                     android:layout_below="@+id/Word6"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="10dp"
-                    android:clickable="true"
                     android:maxLines="1"
-                    android:onClick="EditFields"
-                    android:text="Like Always."
+                    android:text="*Pixie Dust*"
                     android:textColor="@color/girl_pale_orange"
-                    android:contentDescription="Word Cloud"
-                    android:textSize="45sp" />
+                    android:textSize="48sp" />
+
+                <ImageView
+                    android:id="@+id/description_expand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_expand"
+                    android:onClick="DescriptionExpand" />
+
             </RelativeLayout>
 
             <TextView
@@ -266,7 +254,7 @@
                     android:layout_alignTop="@+id/image_text_similarity_number"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="33dp"
-                    android:text="76%"
+                    android:text="100%"
                     android:textColor="@color/girl_pink"
                     android:textSize="42sp" />
 
@@ -331,7 +319,7 @@
                 android:id="@+id/SkillsToLearnRow"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:background="@drawable/header" >
+                android:background="@drawable/header_skills" >
 
                 <TextView
                     android:id="@+id/TextView01"
@@ -356,7 +344,7 @@
                 android:id="@+id/SkillsToOfferRow"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:background="@drawable/header" >
+                android:background="@drawable/header_skills" >
 
                 <TextView
                     android:id="@+id/TextView03"
@@ -369,8 +357,8 @@
                     android:textColor="@android:color/black"
                     android:textSize="28sp" />
             </TableRow>
-
-                    <Button
+            
+            <Button
             android:id="@+id/saveBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -379,12 +367,11 @@
             android:layout_marginBottom="44dp"
             android:gravity="center_vertical|center_horizontal"
             android:background="@drawable/red_rsvp_btn"
-            android:onClick="SaveEdit"
+            android:onClick="SaveUser"
+            android:text="   Save Changes   "
             style="@style/CommunityTitle"
-            android:text="   Save   "
             android:textSize="18sp" />
         </RelativeLayout>
     </LinearLayout>
-    
 
 </ScrollView>

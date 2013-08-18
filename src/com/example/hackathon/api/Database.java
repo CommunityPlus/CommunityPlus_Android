@@ -101,6 +101,92 @@ public class Database {
 		new SendCreate().execute(item, serializedObject);
 	}
 
+	public void createSignUp(final Context context, String email, String pwd, String confirm_pwd) {
+
+		// # curl -v -H 'Content-Type: application/json' -H 'Accept:
+		// application/json' -X POST http://localhost:3000/api/registrations -d
+		// "{\"user\":{\"email\":\"user1@example.com\",\"name\":\"anotheruser\",
+		// \"password\":\"secret\",\"password_confirmation\":\"secret\"}}"
+
+		Gson gson = new Gson();
+		String serializedObject = "{ \"user\": { \"email\": "
+				+ gson.toJson(email) + ", \"password\": " + gson.toJson(pwd)
+				+ ", \"password_confirmation\": " + gson.toJson(pwd) + " }}";
+
+		new AsyncTask<String, Void, String>() {
+			@Override
+			protected String doInBackground(String... params) {
+				String item = params[0];
+				String serializedJson = params[1];
+
+				try {
+					HttpClient httpclient = new DefaultHttpClient();
+					HttpPost httpput = new HttpPost(url + item);
+					Log.d("signup", url + item);
+					httpput.setHeader("Content-Type", "application/json");
+					httpput.setHeader("Accept", "application/json");
+
+					Log.d("signup", "sending " + serializedJson);
+					StringEntity entity = new StringEntity(serializedJson);
+					httpput.setEntity(entity);
+					String authorizationString = "Basic "
+							+ Base64.encodeToString(
+									(username + ":" + password).getBytes(),
+									Base64.NO_WRAP);
+					httpput.setHeader("Authorization", authorizationString);
+
+					HttpResponse result = httpclient.execute(httpput);
+
+					if (result == null) {
+						// something is wrong
+					} else {
+						ByteArrayOutputStream os = new ByteArrayOutputStream();
+						try {
+							InputStream is = result.getEntity().getContent();
+							int c;
+							while ((c = is.read()) >= 0) {
+								os.write(c);
+							}
+							is.close();
+							os.close();
+							return os.toString();
+						} catch (IOException e1) {
+							Log.e("signup", "read error", e1);
+						}
+					}
+
+				} catch (Exception e) {
+					Log.e("log_tag", "Error in http connection " + e.toString());
+				}
+
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(String result) {
+				// {"success":true,"info":"Logged in","data":{"auth_token":"AWfmLXCCsExWkUQTPVEL"}}*
+				// Closing connection #0
+
+				Log.d("login", "got back: " + result);
+				SessionManager sm = new SessionManager(context);
+
+				try {
+					String token = new JSONObject(result).getJSONObject("data")
+							.getString("auth_token");
+					int id = new JSONObject(result).getJSONObject("data")
+							.getInt("id");
+					Boolean success = new JSONObject(result)
+							.getBoolean("success");
+					sm.saveToken(token, Integer.toString(id), success);
+				} catch (JSONException e) {
+					Log.e("login", "json error", e);
+				}
+
+			}
+		}.execute("registrations", serializedObject);
+
+	}
+
 	public void logoutUser(String token)
 
 	{
@@ -326,13 +412,14 @@ public class Database {
 	 * @throws ExecutionException
 	 * @throws InterruptedException
 	 **/
-	public EventProfile showEventProfile(int id, Context context) throws InterruptedException,
-			ExecutionException {
-		
+	public EventProfile showEventProfile(int id, Context context)
+			throws InterruptedException, ExecutionException {
+
 		SessionManager sm = new SessionManager(context);
-		String item = "events/" + id + ".json?auth_token=" + sm.getUserDetails().get("token");
-		
-//		String item = "events/" + id + ".json";
+		String item = "events/" + id + ".json?auth_token="
+				+ sm.getUserDetails().get("token");
+
+		// String item = "events/" + id + ".json";
 		SendShow request = new SendShow();
 		request.execute(item);
 
@@ -464,7 +551,7 @@ public class Database {
 	 * @see EventProfile
 	 **/
 	public void updateEvents(int id, EventProfile event) {
-//		SessionManager sm = new SessionManager(context);
+		// SessionManager sm = new SessionManager(context);
 		String item = "events/" + id;
 		Gson gson = new Gson();
 		String serializedObject = gson.toJson(event);

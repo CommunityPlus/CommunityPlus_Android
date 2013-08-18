@@ -10,66 +10,48 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.hackathon.api.Database;
 
 import de.arvidg.exampleactionbartabs.R;
 
 /**
- * Activity which displays a login screen to the user, offering registration as
- * well.
+ * This is essentially the same as the LoginActivity
+ * But with slightly different routes and authentication stuff
  */
-public class LoginActivity extends Activity {
-	public static final String EXTRA_EMAIL = "com.example.android.authenticatordemo.extra.EMAIL";
-	private UserLoginTask mAuthTask = null;
 
-	// Values for email and password at the time of the login attempt.
-	private String mEmail;
-	private String mPassword;
+public class SignUp extends Activity {
 
-	// UI references.
 	private EditText mEmailView;
 	private EditText mPasswordView;
+	private EditText mPasswordConfirmView;
 	private View mLoginFormView;
 	private View mLoginStatusView;
 	private TextView mLoginStatusMessageView;
-
-	// Session Manager Stuff
-	// Alert Dialog Manager
-	AlertDialogManager alert = new AlertDialogManager();
-	// Session Manager Class
+	private UserLoginTask mAuthTask = null;
+	private String mEmail;
+	private String mPassword;
+	private String mPasswordConfirm;
+	
 	SessionManager session;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		setContentView(R.layout.activity_login);
-
+		setContentView(R.layout.sign_up);
+		
 		session = new SessionManager(getApplicationContext());
 
 		// Set up the login form.
 		mEmailView = (EditText) findViewById(R.id.email);
 
 		mPasswordView = (EditText) findViewById(R.id.password);
-		mPasswordView
-				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-					@Override
-					public boolean onEditorAction(TextView textView, int id,
-							KeyEvent keyEvent) {
-						if (id == R.id.login || id == EditorInfo.IME_NULL) {
-							attemptLogin();
-							return true;
-						}
-						return false;
-					}
-				});
+		mPasswordConfirmView = (EditText) findViewById(R.id.password_confirm);
 
 		mLoginFormView = findViewById(R.id.login_form);
 		mLoginStatusView = findViewById(R.id.login_status);
@@ -79,29 +61,17 @@ public class LoginActivity extends Activity {
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						attemptLogin();
+						attemptSignUp();
 					}
+
 				});
 	}
-	
-	public void registerUser(View v){
-		
-		Intent intent = new Intent(LoginActivity.this, SignUp.class);
-		Log.d("LoginActivity", "register user1");
-		startActivity(intent);
-		Log.d("LoginActivity", "register user2");
-	}
 
-	/**
-	 * Attempts to sign in or register the account specified by the login form.
-	 * If there are form errors (invalid email, missing fields, etc.), the
-	 * errors are presented and no actual login attempt is made.
-	 */
-	public void attemptLogin() {
+	private void attemptSignUp() {
 		if (mAuthTask != null) {
 			return;
 		}
-		
+
 		// Reset errors.
 		mEmailView.setError(null);
 		mPasswordView.setError(null);
@@ -109,12 +79,13 @@ public class LoginActivity extends Activity {
 		// Store values at the time of the login attempt.
 		mEmail = mEmailView.getText().toString();
 		mPassword = mPasswordView.getText().toString();
+		mPasswordConfirm = mPasswordConfirmView.getText().toString();
 
 		boolean cancel = false;
 		View focusView = null;
 
 		/*************************** Authentication *********************************/
-		// Check for a valid password.
+		// Check for valid password and the same password
 
 		if (TextUtils.isEmpty(mPassword)) {
 			mPasswordView.setError(getString(R.string.error_field_required));
@@ -123,6 +94,10 @@ public class LoginActivity extends Activity {
 		} else if (mPassword.length() < 4) {
 			mPasswordView.setError(getString(R.string.error_invalid_password));
 			focusView = mPasswordView;
+			cancel = true;
+		} else if (!mPassword.equals(mPasswordConfirm)) {
+			mPasswordConfirmView.setError("Passwords not identical");
+			focusView = mPasswordConfirmView;
 			cancel = true;
 		}
 
@@ -136,7 +111,7 @@ public class LoginActivity extends Activity {
 			focusView = mEmailView;
 			cancel = true;
 		}
-		
+
 		if (cancel) {
 			// There was an error; don't attempt login and focus the first
 			// form field with an error.
@@ -149,6 +124,7 @@ public class LoginActivity extends Activity {
 			mAuthTask = new UserLoginTask();
 			mAuthTask.execute((Void) null);
 		}
+
 	}
 
 	/**
@@ -197,49 +173,44 @@ public class LoginActivity extends Activity {
 	 * the user.
 	 */
 	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-		
+
 		protected Boolean doInBackground(Void... params) {
 			// TODO: attempt authentication against a network service.
 			Boolean result = false;
-						 
+
 			try {
-				//wait to get some result from network (I think)
-				Database database = new Database("http://192.168.1.109:3000/api/", "android","1234");
-				database.loginUser(LoginActivity.this, mEmailView.getText().toString(), mPasswordView.getText().toString());
+				// wait to get some result from network (I think)
+				Database database = new Database(
+						"http://192.168.1.109:3000/api/", "android", "1234");
+				database.createSignUp(getApplicationContext(), mEmailView
+						.getText().toString(), mPasswordView.getText()
+						.toString(), mPasswordConfirmView.getText().toString());
 
 				Thread.sleep(3000);
 				
-				// check if user is logged in (authentication correct on server side)
-				Log.d("LoginActivity", "session status: " + session.checkLogin());
-				
 				if (session.checkLogin() == true)
 					result  = true;
+
 			} catch (InterruptedException e) {
 				Log.e("LoginActivity", "interrupted exception", e);
 			}
-			
-			
+
 			return result;
-			
-			// TODO: register the new account here.
+
 		}
 
 		@Override
 		protected void onPostExecute(final Boolean success) {
 			mAuthTask = null;
 			showProgress(false);
-			
-			Log.d("LoginActivity", "on post execute success is: " +success);
-			
+
 			if (success) {
-				Log.d("LoginActivity", "user id on postexecute is: " +  session.getUserDetails().get("id"));
-				Intent intent = new Intent(LoginActivity.this, StartActivity.class);
+				
+				Intent intent = new Intent(SignUp.this, StartActivity.class);
 				intent.putExtra("id", Integer.parseInt(session.getUserDetails().get("id")));
 				startActivity(intent);
-//				 finish();
 			} else {
-				mPasswordView
-						.setError(getString(R.string.error));
+				mPasswordView.setError(getString(R.string.error));
 				mPasswordView.requestFocus();
 			}
 		}
@@ -250,4 +221,17 @@ public class LoginActivity extends Activity {
 			showProgress(false);
 		}
 	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main, menu); // don't know why main doesn't work
+												// anymore
+		return true;
+	}
+
+	private void startSignUp() {
+
+	}
+
 }

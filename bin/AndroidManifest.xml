@@ -67,6 +67,12 @@
             android:name="com.example.hackathon.EditProfile"
             android:theme="@style/Theme.AndroidDevelopers" >
         </activity>
+        
+                <activity
+            android:name="com.example.hackathon.SignUp"
+            android:theme="@style/Theme.AndroidDevelopers"
+            android:label="Sign Up" >
+        </activity>
     </application>
 
 </manifest>
