@@ -15,6 +15,10 @@ public class ListEvents {
 	String name;
 	@SerializedName("location")
 	String location;
+	@SerializedName("date")
+	String date;
+	@SerializedName("time")
+	String time;
 	
 	public ListEvents(int eventId, String eventPicture, String name,
  String location) {
@@ -59,6 +63,12 @@ public class ListEvents {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getEventDate(){
+		return this.date;
+	}
+	public String getEventTime(){
+		return this.time;
 	}
 	
 	

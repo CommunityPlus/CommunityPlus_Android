@@ -19,6 +19,8 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:theme="@style/FullscreenTheme" >
+
+            <!-- This is where it's supposed to go -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,8 +37,8 @@
         </activity>
         <activity
             android:name="com.example.hackathon.EventDetail"
-            android:theme="@style/Theme.AndroidDevelopers"
-            android:label="Event" >
+            android:label="Event"
+            android:theme="@style/Theme.AndroidDevelopers" >
         </activity>
         <activity
             android:name="com.example.hackathon.LoginActivity"
@@ -48,16 +50,18 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.hackathon.PeopleActivity"
+        <activity
+            android:name="com.example.hackathon.PeopleActivity"
             android:label="Profile" >
         </activity>
-        <activity android:name="com.example.hackathon.EventCreate"
+        <activity
+            android:name="com.example.hackathon.EventCreate"
             android:label="New Event" >
         </activity>
         <activity
             android:name="com.example.hackathon.PeopleDetail"
-            android:theme="@style/Theme.AndroidDevelopers"
-            android:label="Profile" >
+            android:label="Profile"
+            android:theme="@style/Theme.AndroidDevelopers" >
         </activity>
         <activity
             android:name="com.example.hackathon.EditProfile"

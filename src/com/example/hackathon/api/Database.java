@@ -26,6 +26,7 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.example.hackathon.SessionManager;
+import com.example.hackathon.models.Attendees;
 import com.example.hackathon.models.EventProfile;
 import com.example.hackathon.models.ListEvents;
 import com.example.hackathon.models.ListUsers;
@@ -62,7 +63,8 @@ public class Database {
 	String url;
 
 	public Database(String url, String username, String password) {
-		this.url = url;
+		// this.url = url;
+		this.url = "http://10.0.0.5:3000/api/";
 		this.password = password;
 		this.username = username;
 
@@ -70,6 +72,7 @@ public class Database {
 		}.getType();
 		ListEventsArray = new TypeToken<ArrayList<ListEvents>>() {
 		}.getType();
+
 		/*
 		 * UserProfile user = new UserProfile();
 		 * 
@@ -223,7 +226,18 @@ public class Database {
 	 */
 	public void createEvents(EventProfile event) {
 		String item = "events/";
-		new SendCreate().execute(item, event.toString());
+		Gson gson = new Gson();
+		String serializedObject = gson.toJson(event);
+		Log.d("Database_createEvent", serializedObject);
+		new SendCreate().execute(item, serializedObject);
+	}
+
+	public void createAttendee(Attendees attendee) {
+		String item = "attendees/";
+		Gson gson = new Gson();
+		String serializedObject = gson.toJson(attendee);
+		Log.d("Database_createEvent", serializedObject);
+		new SendCreate().execute(item, serializedObject);
 	}
 
 	/**
@@ -312,9 +326,13 @@ public class Database {
 	 * @throws ExecutionException
 	 * @throws InterruptedException
 	 **/
-	public EventProfile showEventProfile(int id) throws InterruptedException,
+	public EventProfile showEventProfile(int id, Context context) throws InterruptedException,
 			ExecutionException {
-		String item = "events/" + id + ".json";
+		
+		SessionManager sm = new SessionManager(context);
+		String item = "events/" + id + ".json?auth_token=" + sm.getUserDetails().get("token");
+		
+//		String item = "events/" + id + ".json";
 		SendShow request = new SendShow();
 		request.execute(item);
 
@@ -322,7 +340,8 @@ public class Database {
 		String json = request.get();
 		Gson gson = new Gson();
 		EventProfile event = gson.fromJson(json, EventProfile.class);
-		Log.d("Database", "Event name in ShowEventProfile is: " + event.getName());
+		Log.d("Database",
+				"Event name in ShowEventProfile is: " + event.getName());
 		return event;
 	}
 
@@ -445,15 +464,19 @@ public class Database {
 	 * @see EventProfile
 	 **/
 	public void updateEvents(int id, EventProfile event) {
+//		SessionManager sm = new SessionManager(context);
 		String item = "events/" + id;
-		new SendUpdate().execute(item, event.toString());
+		Gson gson = new Gson();
+		String serializedObject = gson.toJson(event);
+		Log.d("Database_createEvent", serializedObject);
+		new SendUpdate().execute(item, serializedObject);
 	}
 
-	// public void updateAttendees(int id, Attendee attendee)
-	// public void updateAttendees(int user_id, EventProfile event, UserProfile
-	// user)
-	// {
-	// String item = "attendees/"+id;
+	// public void updateAttendees(int id, Attendees attendee){
+	// String item = "attendees/" + id;
+	// Gson gson = new Gson();
+	// String serializedObject = gson.toJson(attendee);
+	// Log.d("Database_createEvent", serializedObject);
 	// new SendUpdate().execute(item, attendee.toString());
 	// }
 
@@ -527,10 +550,13 @@ public class Database {
 			try {
 				HttpClient httpclient = new DefaultHttpClient();
 				HttpPost httppost = new HttpPost(url + item);
+				Log.d("Database_createEvent", url + item);
 				httppost.setHeader("Content-Type", "application/json");
 				httppost.setHeader("Accept", "application/json");
 
 				StringEntity entity = new StringEntity(serializedJson);
+				Log.d("Database_createEvent", "sending " + serializedJson);
+
 				httppost.setEntity(entity);
 
 				String authorizationString = "Basic "
@@ -547,10 +573,12 @@ public class Database {
 			return null;
 		}
 
-		protected void onPostExecute(Void unused) {
-			String result = "";
+		protected void onPostExecute(String result) { // Void unused
+			// String result = "";
+			Log.d("Database", "SendCreate result is: " + result);
 			try {
 				result = EntityUtils.toString(response.getEntity());
+				Log.d("Database", "SendCreate result changed to: " + result);
 			} catch (Exception e) {
 			}
 

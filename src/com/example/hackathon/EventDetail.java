@@ -1,22 +1,22 @@
 package com.example.hackathon;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.AttributeSet;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.example.hackathon.adapter.PeopleAdapter;
 import com.example.hackathon.api.Database;
+import com.example.hackathon.models.Attendees;
 import com.example.hackathon.models.EventProfile;
 import com.example.hackathon.models.ListUsers;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -52,9 +53,9 @@ public class EventDetail extends FragmentActivity {
 	static ImageView ic_expand = null;
 
 	// RSVP
-	static boolean RSVPstatus = false;
 	static Button RSVPbtn = null;
 	static AlertDialogManager rsvp_type;
+	boolean isTeach = true;
 
 	// components to edit
 	static TextView txt;
@@ -68,6 +69,7 @@ public class EventDetail extends FragmentActivity {
 	int event_id;
 
 	// Things to Popualte
+	private static Date eventDateTime = null;
 
 	// ImageLoader
 	static ImageLoader imageLoader;
@@ -112,9 +114,9 @@ public class EventDetail extends FragmentActivity {
 		try {
 			event_id = eventDetails.getInt("eventId");
 			Log.d("EventDetail", Integer.toString(event_id));
-			
-			eventProfile = database.showEventProfile(event_id);
-			
+
+			eventProfile = database.showEventProfile(event_id, getApplicationContext());
+
 			Log.d("EventDetail", "event name is: " + eventProfile.getName());
 			attendees = eventProfile.getAttendees();
 			PeopleAdapter peopleAdapter = new PeopleAdapter(
@@ -139,8 +141,18 @@ public class EventDetail extends FragmentActivity {
 		// // "From me to you, this text is new.");
 
 		populateEventDetail();
+		RSVPStatus();
 		setEventPic();
 
+	}
+
+	private void RSVPStatus() {
+		if (eventProfile.getAttendeeId() == 0) {
+			RSVPbtn.setText("RSVP");
+		}
+		else{
+			RSVPbtn.setText("Going!");
+		}
 	}
 
 	private AdapterView.OnItemClickListener clickListener = new AdapterView.OnItemClickListener() {
@@ -168,11 +180,59 @@ public class EventDetail extends FragmentActivity {
 		}
 	};
 
+	private String EVENT_DATE_TIME;
+
 	private void setEventPic() {
 		ImageView imageView = (ImageView) findViewById(R.id.eventPicutreImage);
 
 		imageLoader.displayImage(eventProfile.getEventPicture(), imageView,
 				options, new SimpleImageLoadingListener());
+	}
+
+	private String getDayOfWeek(int day) {
+
+		switch (day) {
+		case 1:
+			return "Sun";
+		case 2:
+			return "Mon";
+		case 3:
+			return "Tue";
+		case 4:
+			return "Wed";
+		case 5:
+			return "Thu";
+		case 6:
+			return "Fri";
+		case 7:
+			return "Sat";
+		}
+		return null;
+	}
+
+	private void formatDateTime() {
+		// EVENT_DATE_TIME = EVENT_DATE + " | " + EVENT_TIME;
+		// System.out.println("evnet date time is: " + EVENT_DATE_TIME);
+		int year = eventDateTime.getYear() + 1900;
+		int month = eventDateTime.getMonth() + 1;
+
+		String day = getDayOfWeek(eventDateTime.getDay());
+
+		EVENT_DATE_TIME = day + "  |  " + eventDateTime.getDate() + " / "
+				+ month + " / " + year + "  |  " + eventDateTime.getHours()
+				+ " : " + eventDateTime.getMinutes();
+		Log.d("EventCreate", "after format date time: " + EVENT_DATE_TIME);
+	}
+
+	private void getDateTime() {
+		// EVENT_DATE =
+		String DateTime = eventProfile.getDate() + " " + eventProfile.getTime();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		try {
+			eventDateTime = format.parse(DateTime);
+		} catch (java.text.ParseException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void populateEventDetail() {
@@ -184,23 +244,18 @@ public class EventDetail extends FragmentActivity {
 		txt.setText(eventProfile.getDescription());
 
 		// Find # of attendees, date, time
+		getDateTime();
 		txt = (TextView) findViewById(R.id.event_date_time);
-		txt.setText("Sun" + " | " + "21 Jul" + " | "
-				+ Integer.toString(eventProfile.getAttendees().size())
-				+ "  Attending");
+		formatDateTime();
+		txt.setText(EVENT_DATE_TIME);
 
 		txt = (TextView) findViewById(R.id.event_attendance);
 		if (eventProfile.getAttendees().size() < 2) {
 			txt.setText(Integer.toString(eventProfile.getAttendees().size())
-					+ "  Peoson Attending");
+					+ "  Person Attending");
 		} else
 			txt.setText(Integer.toString(eventProfile.getAttendees().size())
 					+ "  People Attending");
-
-		// Find who's the host
-
-		txt = (TextView) findViewById(R.id.event_organizer);
-		txt.setText(eventProfile.getHostName());
 	}
 
 	public static void initImageLoader(Context context) {
@@ -273,16 +328,97 @@ public class EventDetail extends FragmentActivity {
 
 	// Matt: Put code here to upload individual RSVP status to cloud
 	public void RsvpStatus(View v) {
-		if (RSVPstatus == false) {
-			RSVPstatus = true;
+
+		SessionManager session = new SessionManager(getApplicationContext());
+
+		// make sure that attendee is not going 
+		if (eventProfile.getAttendeeId() == 0) {	//RSVPstatus == false && 
 			RSVPbtn.setText("Going!");
-			rsvp_type = new AlertDialogManager();
-			rsvp_type.showAlertDialog(EventDetail.this, "RSVP",
-					"Select who you are", false);
+
+			// Source of the data in the DIalog
+			CharSequence[] array = {"To Teach", "To Learn"};
+
+			AlertDialog ad = new AlertDialog.Builder(this)
+					.setCancelable(false)
+					.setTitle("Select who you are")
+					.setSingleChoiceItems(array, 1,
+							new DialogInterface.OnClickListener() {
+
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+									Log.d("EventDetail",
+											"set single choice button 1: "
+													+ which);
+
+									switch (which) {
+									case 0:
+										isTeach = true;
+									case 1:
+										isTeach = false;
+									}
+								}
+							})
+					.setPositiveButton("OK",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									//do nothing here...
+								}
+							}).create();
+			ad.show();
+
+			Attendees attendee = new Attendees();
+			attendee.setEvent_id(event_id);
+			attendee.setUser_id(Integer.parseInt(session.getUserDetails().get(
+					"id")));
+			attendee.setIs_Teach(isTeach);
+			database.createAttendee(attendee);
+
 		} else {
-			RSVPstatus = false;
 			RSVPbtn.setText("RSVP");
+			if (eventProfile.getAttendeeId() > 0){	//going
+				database.deleteAttendee(eventProfile.getAttendeeId());
+			}
+
 		}
+		
+		// update list view
+		try {
+			eventProfile = database.showEventProfile(event_id, getApplicationContext());
+			attendees = eventProfile.getAttendees();
+			PeopleAdapter peopleAdapter = new PeopleAdapter(
+					getApplicationContext(), attendees, imageLoader);
+			lv.setAdapter(peopleAdapter);
+			lv.setOnItemClickListener(clickListener);
+		} catch (InterruptedException e) {
+			Log.e("Database", "Throw InterruptedException");
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			Log.e("Database", "Throw ExecutionException");
+			e.printStackTrace();
+		}
+		
+		// update # of people attending
+		txt = (TextView) findViewById(R.id.event_attendance);
+		if (eventProfile.getAttendees().size() < 2) {
+			txt.setText(Integer.toString(eventProfile.getAttendees().size())
+					+ "  Person Attending");
+		} else
+			txt.setText(Integer.toString(eventProfile.getAttendees().size())
+					+ "  People Attending");
+		
+	}
+	
+	@Override
+	protected void onRestart() {
+		// TODO Auto-generated method stub
+		super.onRestart();
+		Log.d("EventDetail", "on restart 1");
+		finish();
+		Log.d("EventDetail", "on restart 2");
+		startActivity(getIntent());
+		Log.d("EventDetail", "on restart 3");
 	}
 
 }

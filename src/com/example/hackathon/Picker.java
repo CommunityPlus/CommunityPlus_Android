@@ -10,6 +10,7 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ import android.view.View.OnClickListener;
 
 public class Picker extends DialogFragment {
 
-	 DialogFragment timePicker;
+	DialogFragment timePicker;
 	DialogFragment datePicker;
 	static TextView dialog_date;
 	static TextView dialog_time;
@@ -31,86 +32,112 @@ public class Picker extends DialogFragment {
 	static int YEAR;
 	static int MONTH;
 	static int DAY;
+	static int DAY_OF_WEEK;
 	public static TextView txt;
 	private Button saveBtn;
 	static String results;
-	
+
 	public Picker() {
 		timePicker = new TimePickerFragment();
 		datePicker = new DatePickerFragment();
 		results = null;
 	}
-	
 
-//	public Picker(TextView txt) {
-//		// Empty constructor required for DialogFragment
-//		timePicker = new TimePickerFragment();
-//		datePicker = new DatePickerFragment();
-//		this.txt = txt;
-//		addListener();
-//		}
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		boolean isNew = (Boolean) savedInstanceState.get("ISNEW");
+		 this.DAY = (Integer) savedInstanceState.get("DAY");
+		 this.MONTH = (Integer) savedInstanceState.get("MONTH");
+		 this.YEAR = (Integer) savedInstanceState.get("YEAR");
+		 this.HOUR_OF_DAY = (Integer) savedInstanceState.get("HOUR");
+		 this.MINUTES = (Integer) savedInstanceState.get("MINUTES");
+		 
+		 Log.d("Picker", "stuff: " + DAY + " " + MONTH + " " + YEAR);
+	}
 
-//	@Override
-//	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//			Bundle savedInstanceState) {
-//		View view = inflater.inflate(R.layout.picker, container);
-//		getDialog().setTitle("Event Date and Time");
-//		dialog_date = (TextView) view.findViewById(R.id.dialog_date);
-//		dialog_time = (TextView) view.findViewById(R.id.dialog_time);
-//
-//		timePicker = new TimePickerFragment();
-//		timePicker.show(getFragmentManager(), "TimePicker");
-//		dialog_time.setText(HOUR_OF_DAY + " : " + MINUTES);
-//		datePicker = new DatePickerFragment();
-//		datePicker.show(getFragmentManager(), "DatePicker");
-//		dialog_date.setText(DAY + " / " + MONTH + " / " + YEAR);
-//
-//		// didn't save properly
-//		// when show dialog only the first one is shown
-//		// I think because you show dialog first
-//		// rather screw this and just print the results in the EventDetil
-//		// Page....
-//
-//		saveBtn = (Button) view.findViewById(R.id.pickerSaveBtn);
-//		addListener();
-//
-//		return view;
-//	}
+	// public Picker(Bundle bundle) {
+	// timePicker = new TimePickerFragment();
+	// datePicker = new DatePickerFragment();
+	// results = null;
+	//
+	// }
 
-//	@Override
-//	public void onCancel(DialogInterface dialog) {
-//		// TODO Auto-generated method stub
-//
-//		HOUR_OF_DAY = 0;
-//		MINUTES = 0;
-//		YEAR = 0;
-//		MONTH = 0;
-//		DAY = 0;
-//		((DialogInterface) timePicker).cancel();
-//		((DialogInterface) datePicker).cancel();
-//		super.onCancel(dialog);
-//
-//	}
+	// public Picker(TextView txt) {
+	// // Empty constructor required for DialogFragment
+	// timePicker = new TimePickerFragment();
+	// datePicker = new DatePickerFragment();
+	// this.txt = txt;
+	// addListener();
+	// }
 
-//	public void addListener() {
-//
-//		saveBtn.setOnClickListener(new View.OnClickListener() {
-//			@Override
-//			public void onClick(View view) {
-//				// do something
-//				System.out.println("I'm inside On Click???");
-//				// SaveData(view);
-////				getDialog().cancel(); // supposed to call save data?
-//				
-//			}
-//		});
-//	}
+	// @Override
+	// public View onCreateView(LayoutInflater inflater, ViewGroup container,
+	// Bundle savedInstanceState) {
+	// View view = inflater.inflate(R.layout.picker, container);
+	// getDialog().setTitle("Event Date and Time");
+	// dialog_date = (TextView) view.findViewById(R.id.dialog_date);
+	// dialog_time = (TextView) view.findViewById(R.id.dialog_time);
+	//
+	// timePicker = new TimePickerFragment();
+	// timePicker.show(getFragmentManager(), "TimePicker");
+	// dialog_time.setText(HOUR_OF_DAY + " : " + MINUTES);
+	// datePicker = new DatePickerFragment();
+	// datePicker.show(getFragmentManager(), "DatePicker");
+	// dialog_date.setText(DAY + " / " + MONTH + " / " + YEAR);
+	//
+	// // didn't save properly
+	// // when show dialog only the first one is shown
+	// // I think because you show dialog first
+	// // rather screw this and just print the results in the EventDetil
+	// // Page....
+	//
+	// saveBtn = (Button) view.findViewById(R.id.pickerSaveBtn);
+	// addListener();
+	//
+	// return view;
+	// }
+
+	// @Override
+	// public void onCancel(DialogInterface dialog) {
+	// // TODO Auto-generated method stub
+	//
+	// HOUR_OF_DAY = 0;
+	// MINUTES = 0;
+	// YEAR = 0;
+	// MONTH = 0;
+	// DAY = 0;
+	// ((DialogInterface) timePicker).cancel();
+	// ((DialogInterface) datePicker).cancel();
+	// super.onCancel(dialog);
+	//
+	// }
+
+	// public void addListener() {
+	//
+	// saveBtn.setOnClickListener(new View.OnClickListener() {
+	// @Override
+	// public void onClick(View view) {
+	// // do something
+	// System.out.println("I'm inside On Click???");
+	// // SaveData(view);
+	// // getDialog().cancel(); // supposed to call save data?
+	//
+	// }
+	// });
+	// }
 
 	public String getResults() {
-		String results = Integer.toString(DAY) + "/" + Integer.toString(MONTH)
-				+ "/" + Integer.toString(YEAR) + " | "
-				+ Integer.toString(HOUR_OF_DAY) + ":"
+		// "date":"2013-07-29"
+		// "time":"12:00"
+
+		String results = DAY_OF_WEEK + " |  " + Integer.toString(DAY) + "/"
+				+ Integer.toString(MONTH) + "/" + Integer.toString(YEAR)
+				+ " | " + Integer.toString(HOUR_OF_DAY) + ":"
 				+ Integer.toString(MINUTES);
+
+		// String results = Integer.toString(YEAR) + "-"
+		// + Integer.toString(MONTH) + "-"
+		// + Integer.toString(DAY) + "-";
 
 		System.out.println("results in getresults: " + results);
 		return results;
@@ -134,8 +161,6 @@ public class Picker extends DialogFragment {
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			// Use the current time as the default values for the picker
 
-			System.out.println("And here?");
-
 			final Calendar c = Calendar.getInstance();
 			int hour = c.get(Calendar.HOUR_OF_DAY);
 			int minute = c.get(Calendar.MINUTE);
@@ -153,11 +178,13 @@ public class Picker extends DialogFragment {
 			System.out.println("save data: " + hourOfDay + " " + minute);
 			HOUR_OF_DAY = hourOfDay;
 			MINUTES = minute;
-//			System.out.println("verify data time: " + HOUR_OF_DAY + " "
-//					+ MINUTES);
-//			System.out.println("verify data date: " + YEAR + " " + MONTH + " "
-//					+ DAY);
-//			results = results + Integer.toString(HOUR_OF_DAY) + " : " + Integer.toString(MINUTES);
+			// System.out.println("verify data time: " + HOUR_OF_DAY + " "
+			// + MINUTES);
+			// System.out.println("verify data date: " + YEAR + " " + MONTH +
+			// " "
+			// + DAY);
+			// results = results + Integer.toString(HOUR_OF_DAY) + " : " +
+			// Integer.toString(MINUTES);
 			getDialog().cancel();
 		}
 	}
@@ -165,25 +192,36 @@ public class Picker extends DialogFragment {
 	public static class DatePickerFragment extends DialogFragment implements
 			DatePickerDialog.OnDateSetListener {
 
+		Calendar c = null;
+
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			// Use the current date as the default date in the picker
-			final Calendar c = Calendar.getInstance();
+			c = Calendar.getInstance();
 			int year = c.get(Calendar.YEAR);
 			int month = c.get(Calendar.MONTH);
 			int day = c.get(Calendar.DAY_OF_MONTH);
+			
+			Log.d("Picker", "year month day: " + year + " " +month+1 + " " +day);
+
+//			c.set(YEAR, MONTH, DAY);
+			System.out
+			.println("day of week at 1: " + c.get(Calendar.DAY_OF_WEEK));
+			DAY_OF_WEEK = c.get(Calendar.DAY_OF_WEEK);
+			// Use the set date as the default date in the picker
 
 			// Create a new instance of DatePickerDialog and return it
-			return new DatePickerDialog(getActivity(), this, year, month, day);
+			return new DatePickerDialog(getActivity(), this, YEAR, MONTH, DAY);
 		}
 
 		public void onDateSet(DatePicker view, int year, int month, int day) {
 			// Do something with the date chosen by the user
 			// Mel: still have to save data here
 			YEAR = year;
-			MONTH = month + 1; // yeah I think android default month is wrong..
+			MONTH = month+1; // yeah I think android default month is wrong..
 			DAY = day;
-//			results = Integer.toString(YEAR)+ "/" + Integer.toString(MONTH)+ "/" +  Integer.toString(DAY);
+			// results = Integer.toString(YEAR)+ "/" + Integer.toString(MONTH)+
+			// "/" + Integer.toString(DAY);
 		}
 	}
 

@@ -79,11 +79,7 @@ public class BFragment extends ListFragment {
 				.show();
 		Bundle eventDetails = new Bundle();
 		eventDetails.putInt("eventId", eventSelected.getEventId());
-		Log.d("BFragment", "Bfrag event id is: " + eventSelected.getEventId());
 
-		// if (eventSelected.get)
-		// boolean editable = true;
-		 
 
 		Intent intent = new Intent(getActivity().getApplicationContext(),
 				EventDetail.class);

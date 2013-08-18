@@ -8,8 +8,10 @@ public class Attendees {
 	private int event_id;
 	@SerializedName("user_id")
 	private int user_id;
-	@SerializedName("skill_id")
-	private int skill_id;
+	@SerializedName("teach")
+	private boolean is_teach;
+	@SerializedName("attendee_id")
+	private int attendee_id;
 	
 	
 	public int getEvent_id() {
@@ -24,11 +26,14 @@ public class Attendees {
 	public void setUser_id(int user_id) {
 		this.user_id = user_id;
 	}
-	public int getSkill_id() {
-		return skill_id;
+	public Boolean getIs_teach() {
+		return is_teach;
 	}
-	public void setSkill_id(int skill_id) {
-		this.skill_id = skill_id;
+	public void setIs_Teach(Boolean _is_teach) {
+		this.is_teach= _is_teach;
+	}
+	public int getAttendee_id(){
+		return attendee_id;
 	}
 	
 	

@@ -16,22 +16,22 @@ public class EventProfile {
 	@SerializedName("name")
 	private String name;
 	//public String status;
-//	@SerializedName("date")
-//	private String date;
+	@SerializedName("date")
+	private String date;
 	@SerializedName("description")
 	private String description;
-//	@SerializedName("time")
-//	private String time;
+	@SerializedName("time")
+	private String time;
 	@SerializedName("location")
 	private String location;
 	@SerializedName("photo_url")
 	private String eventPicture;
 	@SerializedName("attendees")
 	public ArrayList<ListUsers> attendees;
-	@SerializedName("host_id")
-	private int hostId;
 	@SerializedName("host_name")
 	private String hostName;
+	@SerializedName("attendee_id")
+	private int attendeeID;
 	
 
 	public String getHostName() {
@@ -40,12 +40,12 @@ public class EventProfile {
 	public void setHostName(String hostName) {
 		this.hostName = hostName;
 	}
-	public int getHostId() {
-		return hostId;
-	}
-	public void setHostId(int hostId) {
-		this.hostId = hostId;
-	}
+//	public int getHostId() {
+//		return hostId;
+//	}
+//	public void setHostId(int hostId) {
+//		this.hostId = hostId;
+//	}
 	public String getName() {
 		Log.d("EventProfile", "hello???");
 		Log.d("EventProfile", "event profile name: " + name);
@@ -54,24 +54,12 @@ public class EventProfile {
 	public void setName(String name) {
 		this.name = name;
 	}
-//	public String getDate() {
-//		return date;
-//	}
-//	public void setDate(String date) {
-//		this.date = date;
-//	}
 	public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
 	}
-//	public String getTime() {
-//		return time;
-//	}
-//	public void setTime(String time) {
-//		this.time = time;
-//	}
 	public String getLocation() {
 		return location;
 	}
@@ -90,15 +78,27 @@ public class EventProfile {
 	public void setAttendees(ArrayList<ListUsers> attendees) {
 		this.attendees = attendees;
 	}
-	public String getDateTime() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getDate() {
+		Log.d("EventProfile", "date format: " + this.date);
+		return this.date;
 	}
-
-
 	
-	// in this case the ArrayList<Skill> will only have one element.
+	public void setDate(String _date) {
+		this.date = _date;
+	}
 	
+	public String getTime() {
+		Log.d("EventProfile", "time format: " + this.time);
+		return this.time;
+	}
+	
+	public void setTime(String _time) {
+		this.time = _time;
+	}
+	
+	public int getAttendeeId(){
+		return this.attendeeID;
+	}
 
 	
 }
